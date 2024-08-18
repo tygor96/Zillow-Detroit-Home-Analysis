@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zillow Data Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Zillow Data Analysis Results</h1>
+    <div id="results"></div>
+
+    <script>
+        // Fetch the data from the Flask API
+        fetch('http://127.0.0.1:5000/api/analysis')
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('results');
+
+                // Display Basic Statistics
+                const basicStats = document.createElement('div');
+                basicStats.innerHTML = `<h2>Basic Statistics</h2><pre>${JSON.stringify(data.basic_statistics, null, 2)}</pre>`;
+                resultsDiv.appendChild(basicStats);
+
+                // Display Price Analysis
+                const priceAnalysis = document.createElement('div');
+                priceAnalysis.innerHTML = `<h2>Price Analysis by Bedrooms</h2><pre>${JSON.stringify(data.price_analysis, null, 2)}</pre>`;
+                resultsDiv.appendChild(priceAnalysis);
+
+                // Display Size Analysis
+                const sizeAnalysis = document.createElement('div');
+                sizeAnalysis.innerHTML = `<h2>Size Analysis by Bedrooms</h2><pre>${JSON.stringify(data.size_analysis, null, 2)}</pre>`;
+                resultsDiv.appendChild(sizeAnalysis);
+
+                // Display Correlations
+                const correlations = document.createElement('div');
+                correlations.innerHTML = `<h2>Correlations</h2><pre>${JSON.stringify(data.correlations, null, 2)}</pre>`;
+                resultsDiv.appendChild(correlations);
+
+                // Display Outliers
+                const outliers = document.createElement('div');
+                outliers.innerHTML = `<h2>Outliers</h2><pre>${JSON.stringify(data.outliers, null, 2)}</pre>`;
+                resultsDiv.appendChild(outliers);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
